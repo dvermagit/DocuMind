@@ -1,3 +1,4 @@
+import FileUpload from "@/components/FileUpload";
 import { Button } from "@/components/ui/button";
 import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
@@ -12,7 +13,7 @@ export default async function Home() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className="flex flex-col justify-center items-center">
           <div className="flex items-center justify-center">
-            <h1 className="mr-3 text-5xl font-semibold">
+            <h1 className="mr-3 text-5xl font-semibold ">
               AI Chat with any PDF
             </h1>
             <div className="flex items-center">
@@ -22,15 +23,15 @@ export default async function Home() {
           <div className="flex mt-2 ">
             {userId && <Button>Go to Chats</Button>}
           </div>
-          <p className="pl-5 max-w-xl mt-1 text-lg text-neutral-600">
-            Join millions of students,researchers and professionals online to{" "}
-            <span className="pl-4">
+          <p className=" max-w-xl text-center mt-1 text-lg text-neutral-600">
+            Join millions of students,researchers and professionals online to
+            <span className="pl-1">
               instantly answer questions and understand research with AI
             </span>
           </p>
-          <div className="mt-1">
+          <div className="mt-1 w-full">
             {userId ? (
-              <h1>fileupload</h1>
+              <FileUpload />
             ) : (
               <Link href="/sign-in">
                 <Button>
