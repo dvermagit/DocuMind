@@ -1,0 +1,46 @@
+import { Button } from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { LogInIcon } from "lucide-react";
+import Link from "next/link";
+
+export default async function Home() {
+  const userId = await auth();
+  // const isAuth = !!userId;
+  return (
+    <div className="w-screen min-h-screen bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="flex flex-col justify-center items-center">
+          <div className="flex items-center justify-center">
+            <h1 className="mr-3 text-5xl font-semibold">
+              AI Chat with any PDF
+            </h1>
+            <div className="flex items-center">
+              <UserButton afterSignOutUrl="/" />
+            </div>
+          </div>
+          <div className="flex mt-2 ">
+            {userId && <Button>Go to Chats</Button>}
+          </div>
+          <p className="pl-5 max-w-xl mt-1 text-lg text-neutral-600">
+            Join millions of students,researchers and professionals online to{" "}
+            <span className="pl-4">
+              instantly answer questions and understand research with AI
+            </span>
+          </p>
+          <div className="mt-1">
+            {userId ? (
+              <h1>fileupload</h1>
+            ) : (
+              <Link href="/sign-in">
+                <Button>
+                  Login to get started! <LogInIcon />
+                </Button>
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
