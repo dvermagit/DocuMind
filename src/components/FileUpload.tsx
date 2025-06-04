@@ -43,7 +43,7 @@ const FileUpload = () => {
         mutate([data.file_key, data.file_name], {
           onSuccess: (data) => {
             console.log(data);
-            toast.success(data.message);
+            // toast.success(data.message);
           },
           onError: (error) => {
             console.log(error);
