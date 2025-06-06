@@ -3,7 +3,6 @@ import { chats } from "@/lib/db/schema";
 import { loadS3IntoPinecone } from "@/lib/pinecone";
 import { getS3Url } from "@/lib/s3";
 import { auth } from "@clerk/nextjs/server";
-import { chat } from "@pinecone-database/pinecone/dist/assistant/data/chat";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request, res: Response) {
