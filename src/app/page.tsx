@@ -6,7 +6,7 @@ import { LogInIcon } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {
-  const userId = await auth();
+  const { userId } = await auth();
   // const isAuth = !!userId;
   return (
     <div className="w-screen min-h-screen bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100">
@@ -29,15 +29,17 @@ export default async function Home() {
               instantly answer questions and understand research with AI
             </span>
           </p>
-          <div className="mt-1 w-full">
+          <div className="mt-1 w-full ">
             {userId ? (
               <FileUpload />
             ) : (
-              <Link href="/sign-in">
-                <Button>
-                  Login to get started! <LogInIcon />
-                </Button>
-              </Link>
+              <div className="flex items-center justify-center">
+                <Link href="/sign-in">
+                  <Button>
+                    Login to get started! <LogInIcon />
+                  </Button>
+                </Link>
+              </div>
             )}
           </div>
         </div>

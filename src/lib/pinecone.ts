@@ -127,7 +127,7 @@ import { convertToAscii } from "./utils";
 
 // Initialize Pinecone client
 const pinecone = new Pinecone({
-  apiKey: process.env.PINECONE_API_KEY!,
+  apiKey: process.env.NEXT_PUBLIC_PINECONE_API_KEY!,
 });
 
 export const getPineconeClient = async () => {
