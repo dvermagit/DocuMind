@@ -1,3 +1,4 @@
+import { ChatComponent } from "@/components/ChatComponent";
 import ChatSidebar from "@/components/ChatSidebar";
 import PDFViewer from "@/components/PDFViewer";
 import { db } from "@/lib/db";
@@ -6,12 +7,13 @@ import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
-type ChatPageProps = {
+type Props = {
   params: {
     chatId: string;
   };
 };
-export default async function ChatPage({ params: { chatId } }: ChatPageProps) {
+export default async function ChatPage(props: Props) {
+  const { chatId } = await props.params;
   const { userId } = await auth();
   if (!userId) {
     return redirect("/sign-in");
@@ -40,7 +42,7 @@ export default async function ChatPage({ params: { chatId } }: ChatPageProps) {
 
         {/* chat component */}
         <div className="flex-[3] border-l-4 border-gray-200">
-          {/* <ChatComponent/> */}
+          <ChatComponent />
         </div>
       </div>
     </div>
