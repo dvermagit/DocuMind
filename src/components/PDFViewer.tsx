@@ -1,9 +1,9 @@
 import React from "react";
 
-interface PDFViewerProps {
+type Props = {
   pdf_url: string;
-}
-const PDFViewer = ({ pdf_url }: PDFViewerProps) => {
+};
+const PDFViewer = ({ pdf_url }: Props) => {
   return (
     <iframe
       src={`https://docs.google.com/gview?url=${pdf_url}&embedded=true`}
