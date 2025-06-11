@@ -20,14 +20,14 @@
 //   }
 // }
 
-import { GoogleGenerativeAI, TaskType } from "@google/generative-ai";
+// import { GoogleGenerativeAI, TaskType } from "@google/generative-ai";
 // import { TaskType } from './path/to/task-type';
 
-const genAI = new GoogleGenerativeAI(
-  process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? ""
-);
+// const genAI = new GoogleGenerativeAI(
+//   process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? ""
+// );
 
-//or
+// or
 
 // const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 // if (!apiKey) {
@@ -36,19 +36,38 @@ const genAI = new GoogleGenerativeAI(
 
 // const genAI = new GoogleGenerativeAI(apiKey);
 
-export async function getEmbedding(text: string) {
-  try {
-    const model = genAI.getGenerativeModel({ model: "embedding-001" });
+// export async function getEmbedding(text: string) {
+//   try {
+//     const model = genAI.getGenerativeModel({ model: "embedding-001" });
 
-    const result = await model.embedContent({
-      content: {
-        parts: [{ text: text.replace(/\n/g, " ") }],
-        role: "user",
-      },
-      taskType: "RETRIEVAL_DOCUMENT" as TaskType, // or "RETRIEVAL_QUERY" depending on use case
+//     const result = await model.embedContent({
+//       content: {
+//         parts: [{ text: text.replace(/\n/g, " ") }],
+//         role: "user",
+//       },
+//       taskType: "RETRIEVAL_DOCUMENT" as TaskType, // or "RETRIEVAL_QUERY" depending on use case
+//     });
+
+//     return result.embedding.values as number[];
+//   } catch (error) {
+//     console.log("error calling embedding api", error);
+//     throw error;
+//   }
+// }
+
+import { google } from "@ai-sdk/google";
+
+export async function getEmbedding(text: string): Promise<number[]> {
+  try {
+    const model = google.textEmbeddingModel("text-embedding-004", {
+      taskType: "RETRIEVAL_DOCUMENT",
     });
 
-    return result.embedding.values as number[];
+    const result = await model.doEmbed({
+      values: [text],
+    });
+
+    return result.embeddings[0]; // each embedding is already number[]
   } catch (error) {
     console.log("error calling embedding api", error);
     throw error;
