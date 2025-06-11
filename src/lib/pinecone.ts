@@ -117,6 +117,7 @@
 // }
 
 import { Pinecone, PineconeRecord } from "@pinecone-database/pinecone";
+// // PineconeRecord is used instead of Vector
 import { downloadFromS3 } from "./s3-server";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -163,6 +164,8 @@ export async function loadS3IntoPinecone(fileKey: string) {
     pages.map((page) => prepareDocument(page, splitter))
   );
 
+  // console.log(documents);
+  // console.log(documents.flat());
   // 4. vectorise and embedindividual documents
   const vectors = await Promise.all(documents.flat().map(embedDocument));
 
@@ -170,25 +173,21 @@ export async function loadS3IntoPinecone(fileKey: string) {
   // const client = getPineconeClient();
   // const pineconeIndex = pinecone.Index("process.env.PINECONE_INDEX_NAME!");
   // 5. Get Pinecone index
-  const pineconeIndex = pinecone.Index(
-    process.env.NEXT_PUBLIC_PINECONE_INDEX_NAME!
-  );
+  const pineconeIndex = pinecone.index("documind-ai");
 
   // 6. Upsert vectors to Pinecone
   console.log("Inserting vectors into Pinecone...");
   const namespace = convertToAscii(fileKey);
   const chunkSize = 10;
 
-  for (let i = 0; i < vectors.length; i += chunkSize) {
-    const chunk = vectors.slice(i, i + chunkSize).map((vector) => ({
-      ...vector,
-      metadata: { namespace },
-    }));
-  }
-  // await chunkedUpsert(pineconeIndex, namespace, vectors, 10);
-  // PineconeUtils.chunkedUpsert(pinconeIndex, namespace, vectors, 10);
-  //  await index.upsert(vectors);
-  // console.log("Successfully uploaded to Pinecone!");
+  const chunks: PineconeRecord[] = vectors.map((vector) => ({
+    ...vector,
+    metadata: { namespace, text: documents.flat()[0].pageContent },
+  }));
+
+  console.log({ chunks, vectors });
+
+  pineconeIndex.namespace("default").upsert(chunks);
 
   return documents[0];
 }
