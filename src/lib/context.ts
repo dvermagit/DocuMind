@@ -57,3 +57,4 @@ export async function getContext(query: string, fileKey: string) {
   console.log({ docs });
   return docs.join("\n").substring(0, 3000);
 }
+console.log({ getContext });
