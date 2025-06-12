@@ -42,7 +42,7 @@ export default async function ChatPage(props: Props) {
 
         {/* chat component */}
         <div className="flex-[3] border-l-4 border-gray-200">
-          <ChatComponent />
+          <ChatComponent chatId={parseInt(chatId)} />
         </div>
       </div>
     </div>
