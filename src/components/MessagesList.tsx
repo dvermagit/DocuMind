@@ -1,10 +1,19 @@
 import { cn } from "@/lib/utils";
 import { Message } from "@ai-sdk/react";
+import { is } from "drizzle-orm";
+import { Loader2 } from "lucide-react";
 
 type Props = {
+  isLoading?: boolean;
   messages: Message[];
 };
-export const MessagesList = ({ messages }: Props) => {
+export const MessagesList = ({ messages, isLoading }: Props) => {
+  if (isLoading)
+    return (
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <Loader2 className="w-6 h-6animate-spin" />
+      </div>
+    );
   if (!messages) return <></>;
   return (
     <div className="flex flex-col gap-2 px-4">

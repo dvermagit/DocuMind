@@ -2,20 +2,34 @@
 import { Send } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { useChat } from "@ai-sdk/react";
+import { Message, useChat } from "@ai-sdk/react";
 import { MessagesList } from "./MessagesList";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 type Props = {
   chatId: number;
 };
 export const ChatComponent = ({ chatId }: Props) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["chat", chatId],
+    queryFn: async () => {
+      const response = await axios.post<Message[]>("/api/get-messages", {
+        chatId,
+      });
+      return response.data;
+    },
+  });
+  // if (isLoading) return <div>Loading chat...</div>;
+
   const { input, handleInputChange, handleSubmit, messages } = useChat({
     api: "/api/chat",
     // id: chatId.toString(),
     body: {
       chatId: chatId.toString(),
     },
+    initialMessages: data || [],
   });
 
   React.useEffect(() => {
@@ -38,7 +52,7 @@ export const ChatComponent = ({ chatId }: Props) => {
       </div>
 
       {/* message list */}
-      <MessagesList messages={messages} />
+      <MessagesList messages={messages} isLoading={isLoading} />
 
       <form
         onSubmit={handleSubmit}

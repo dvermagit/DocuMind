@@ -29,7 +29,7 @@ import { chats } from "@/lib/db/schema";
 import { db } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-
+import { messages as _messages } from "@/lib/db/schema";
 // export const runtime = "edge"; // Optional: if you're using edge runtime like Vercel
 
 // const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GOOGLE_API_KEY!);
@@ -70,12 +70,27 @@ export async function POST(req: Request) {
       AI assistant will not invent anything that is not drawn directly from the context.
       `,
     };
-    // Convert messages to Gemini format
-    // const promptParts = messages.map((msg: any) => ({
-    //   role: msg.role === "user" ? "user" : "model",
-    //   parts: [{ text: msg.content }],
-    // }));
 
+    async function onStart() {
+      //save user message in db
+      await db.insert(_messages).values({
+        chatId,
+        content: lastMessage.content,
+        role: "user",
+      });
+    }
+
+    await onStart();
+
+    // async function onCompletion(completion) {
+    //   //save ai message in db
+    //   await db.insert(_messages).values({
+    //     chatId,
+    //     content: completion,
+    //     role: "system",
+    //   });
+    // }
+    // await onCompletion()
     const result = streamText({
       model: google("gemini-1.5-flash-latest"),
       // prompt: "Invent a new holiday and describe its traditions.",
@@ -84,31 +99,20 @@ export async function POST(req: Request) {
         prompt,
         ...messages.filter((message: Message) => message.role === "user"),
       ],
+      onFinish: async (completion) => {
+        //save ai message in db
+        const content = completion.text; // extract the text from the completion object
+        await db.insert(_messages).values({
+          chatId,
+          content,
+          role: "system",
+        });
+      },
     });
 
     for await (const chunk of result.textStream) {
       console.log(chunk);
     }
-
-    // const encoder = new TextEncoder();
-    // const stream = new ReadableStream({
-    //   async start(controller) {
-    //     for await (const chunk of result.stream) {
-    //       const text = chunk.text();
-    //       controller.enqueue(encoder.encode(text));
-    //     }
-    //     controller.close();
-    //   },
-    // });
-
-    // return new Response(stream, {
-    //   headers: {
-    //     "Content-Type": "text/plain; charset=utf-8",
-    //     "Transfer-Encoding": "chunked",
-    //   },
-    // });
-
-    // console.log full stream response
 
     return result.toDataStreamResponse();
   } catch (error: any) {
@@ -116,32 +120,3 @@ export async function POST(req: Request) {
     return new Response("Internal Server Error", { status: 500 });
   }
 }
-
-// import { generateText, Message, streamText } from "ai";
-
-// // import { GoogleGenerativeAI } from "@google/generative-ai";
-// import { google } from "@ai-sdk/google";
-
-// export const runtime = "edge"; // Optional: if you're using edge runtime like Vercel
-
-// export async function POST(req: Request) {
-//   try {
-//     const { messages } = await req.json();
-//     const result = streamText({
-//       model: google("gemini-1.5-flash-latest"),
-//       // prompt: "Invent a new holiday and describe its traditions.",
-//       system: "You are a helpful assistant.",
-//       messages,
-//     });
-
-//     for await (const chunk of result.textStream) {
-//       console.log(chunk);
-//     }
-
-//     // console.log full stream response
-//     return result.toDataStreamResponse();
-//   } catch (error: any) {
-//     console.error("Gemini error:", error);
-//     return new Response("Internal Server Error", { status: 500 });
-//   }
-// }
