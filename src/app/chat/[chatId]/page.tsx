@@ -8,15 +8,14 @@ import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
-interface PageProps {
+type Props = {
   params: {
     chatId: string;
   };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-export default async function ChatPage({ params }: PageProps) {
+};
+
+const ChatPage = async ({ params: { chatId } }: Props) => {
   const { userId } = await auth();
-  const { chatId } = params;
   if (!userId) {
     return redirect("/sign-in");
   }
@@ -28,8 +27,9 @@ export default async function ChatPage({ params }: PageProps) {
     return redirect("/");
   }
 
+  const currentChat = _chats.find((chat) => chat.id === parseInt(chatId));
   const isPro = await checkSubscription();
-  const currentChat = _chats.find((chats) => chats.id === parseInt(chatId));
+
   return (
     <div className="flex max-h-screen overflow-scroll">
       <div className="flex w-full max-h-screen overflow-scroll">
@@ -50,4 +50,6 @@ export default async function ChatPage({ params }: PageProps) {
       </div>
     </div>
   );
-}
+};
+
+export default ChatPage;
