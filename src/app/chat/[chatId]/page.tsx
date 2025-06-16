@@ -8,14 +8,13 @@ import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
-type Props = {
-  params: {
-    chatId: string;
-  };
-};
+type Props = Promise<{ chatId: string }>;
+// params: {
+//   chatId: string;
 
-const ChatPage = async ({ params: { chatId } }: Props) => {
+const ChatPage = async ({ params }: { params: Props }) => {
   const { userId } = await auth();
+  const { chatId } = await params;
   if (!userId) {
     return redirect("/sign-in");
   }
