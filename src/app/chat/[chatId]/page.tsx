@@ -14,8 +14,9 @@ interface PageProps {
   };
   searchParams?: { [key: string]: string | string[] | undefined };
 }
-export default async function ChatPage({ params: { chatId } }: PageProps) {
+export default async function ChatPage({ params }: PageProps) {
   const { userId } = await auth();
+  const { chatId } = params;
   if (!userId) {
     return redirect("/sign-in");
   }
