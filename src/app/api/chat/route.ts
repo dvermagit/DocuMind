@@ -115,7 +115,7 @@ export async function POST(req: Request) {
     }
 
     return result.toDataStreamResponse();
-  } catch (error: any) {
+  } catch (error) {
     console.error("Gemini error:", error);
     return new Response("Internal Server Error", { status: 500 });
   }
