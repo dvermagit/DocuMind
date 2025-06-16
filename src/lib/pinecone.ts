@@ -132,7 +132,7 @@ const pinecone = new Pinecone({
 });
 
 export const getPineconeClient = async () => {
-  pinecone;
+  return pinecone;
 };
 
 type PDFPage = {
@@ -221,16 +221,15 @@ async function prepareDocument(
   page: PDFPage,
   splitter: RecursiveCharacterTextSplitter
 ): Promise<Document[]> {
-  let { pageContent, metadata } = page;
-  pageContent = pageContent.replace(/\n/g, " ");
+  const { pageContent: originalPageContent, metadata } = page;
+  const modifiedPageContent = originalPageContent.replace(/\n/g, " ");
 
   const doc = new Document({
-    pageContent,
+    pageContent: modifiedPageContent,
     metadata: {
       pageNumber: metadata.loc.pageNumber,
-      text: truncateStringByBytes(pageContent, 36000),
+      text: truncateStringByBytes(modifiedPageContent, 36000),
     },
   });
-
   return splitter.splitDocuments([doc]);
 }

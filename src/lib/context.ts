@@ -1,5 +1,6 @@
 import { Pinecone } from "@pinecone-database/pinecone";
 import { getEmbedding } from "./embeddings";
+import { convertToAscii } from "./utils";
 
 export async function getMatchesFromEmbeddings(
   embeddings: number[],
@@ -12,7 +13,7 @@ export async function getMatchesFromEmbeddings(
   const index = await pinecone.index("documind-ai");
 
   try {
-    // const namespace = convertToAscii(fileKey);
+    const namespaceValue = convertToAscii(fileKey);
     // const queryResult = await index.query({
     //   topK: 5,
     //   vector: embeddings,  // Correct property name
@@ -21,7 +22,7 @@ export async function getMatchesFromEmbeddings(
     // });
     // return queryResult.matches || [];
     // const namespace = convertToAscii(fileKey);
-    const queryResult = await index.namespace("default").query({
+    const queryResult = await index.namespace(namespaceValue).query({
       topK: 5,
       vector: embeddings,
       includeMetadata: true,
@@ -48,7 +49,7 @@ export async function getContext(query: string, fileKey: string) {
     pageNumber: number;
   };
 
-  let docs = qualifyingDocs.map((match) => {
+  const docs = qualifyingDocs.map((match) => {
     console.log(match.metadata);
     return (match.metadata as Metadata).text;
   });
