@@ -8,12 +8,13 @@ import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
-type Props = {
+interface PageProps {
   params: {
     chatId: string;
   };
-};
-export default async function ChatPage({ params: { chatId } }: Props) {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+export default async function ChatPage({ params: { chatId } }: PageProps) {
   const { userId } = await auth();
   if (!userId) {
     return redirect("/sign-in");
