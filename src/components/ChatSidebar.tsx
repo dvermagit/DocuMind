@@ -2,16 +2,31 @@
 import { DrizzleChat } from "@/lib/db/schema";
 import Link from "next/link";
 import React from "react";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { MessageCircle, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import axios from "axios";
+import SubscriptionButton from "./SubscriptionButton";
 
 type Props = {
   chats: DrizzleChat[];
   chatId: number;
+  isPro: boolean;
 };
 
-const ChatSidebar = ({ chats, chatId }: Props) => {
+const ChatSidebar = ({ chats, chatId, isPro }: Props) => {
+  const [loading, setLoading] = React.useState(false);
+  const handleSubscription = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/stripe");
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="w-full h-screen p-4 text-gray-200 bg-gray-800 ">
       <Link href="/">
@@ -43,10 +58,22 @@ const ChatSidebar = ({ chats, chatId }: Props) => {
       </div>
       <div className="absolute bottom-4 left-4">
         <div className="flex tems-center gap-2 text-sm text-slate-500 flex-wrap">
-          <Link href="/">Home</Link>
-          <Link href="/">Source</Link>
-          {/* Stripe Button */}
+          <Link href="/" className="hover:text-white">
+            Home
+          </Link>
+          <Link href="/" className="hover:text-white">
+            Source
+          </Link>
         </div>
+        {/* Stripe Button */}
+        <SubscriptionButton isPro={isPro} />
+        {/* <Button
+          className="mt-2 text-white bg-slate-700"
+          disabled={loading}
+          onClick={handleSubscription}
+        >
+          Upgrade To Pro!
+        </Button> */}
       </div>
     </div>
   );

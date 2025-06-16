@@ -19,6 +19,7 @@
     "@neondatabase/serverless": "^0.10.4",
     "@pinecone-database/pinecone": "^6.1.0",
     "@radix-ui/react-slot": "^1.2.3",
+    "@stripe/stripe-js": "^7.3.1",
     "@tanstack/react-query": "^5.79.0",
     "@types/md5": "^2.3.5",
     "ai": "^4.3.16",
@@ -31,13 +32,15 @@
     "langchain": "^0.3.27",
     "lucide-react": "^0.511.0",
     "md5": "^2.3.0",
-    "next": "15.3.2",
+    "next": "^15.3.2",
     "pdf-parse": "^1.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
     "react-hot-toast": "^2.5.2",
-    "tailwind-merge": "^3.3.0"
+    "stripe": "^18.2.1",
+    "tailwind-merge": "^3.3.0",
+    "zod": "3.25.64"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
