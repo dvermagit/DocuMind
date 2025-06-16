@@ -2,7 +2,7 @@
 import { DrizzleChat } from "@/lib/db/schema";
 import Link from "next/link";
 import React from "react";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 import { MessageCircle, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import axios from "axios";
@@ -66,7 +66,9 @@ const ChatSidebar = ({ chats, chatId, isPro }: Props) => {
           </Link>
         </div>
         {/* Stripe Button */}
-        <SubscriptionButton isPro={isPro} />
+        <Button disabled={loading} onClick={handleSubscription}>
+          <SubscriptionButton isPro={isPro} />
+        </Button>
         {/* <Button
           className="mt-2 text-white bg-slate-700"
           disabled={loading}

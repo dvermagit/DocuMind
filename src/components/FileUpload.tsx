@@ -55,6 +55,7 @@ const FileUpload = () => {
         });
         console.log(data);
       } catch (error) {
+        console.log(error);
         toast.error("Error creating chat");
       } finally {
         setUploading(false);

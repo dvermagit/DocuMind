@@ -1,5 +1,4 @@
 import { Pinecone } from "@pinecone-database/pinecone";
-import { convertToAscii } from "./utils";
 import { getEmbedding } from "./embeddings";
 
 export async function getMatchesFromEmbeddings(
@@ -21,7 +20,7 @@ export async function getMatchesFromEmbeddings(
     //   namespace
     // });
     // return queryResult.matches || [];
-    const namespace = convertToAscii(fileKey);
+    // const namespace = convertToAscii(fileKey);
     const queryResult = await index.namespace("default").query({
       topK: 5,
       vector: embeddings,

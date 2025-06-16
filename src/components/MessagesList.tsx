@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Message } from "@ai-sdk/react";
-import { is } from "drizzle-orm";
 import { Loader2 } from "lucide-react";
 
 type Props = {

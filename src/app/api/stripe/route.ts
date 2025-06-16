@@ -3,7 +3,6 @@ import { userSubscriptions } from "@/lib/db/schema";
 import { stripe } from "@/lib/stripe";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
-import next from "next";
 import { NextResponse } from "next/server";
 
 const return_url = process.env.NEXT_BASE_URL + "/";

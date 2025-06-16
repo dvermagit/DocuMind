@@ -178,7 +178,6 @@ export async function loadS3IntoPinecone(fileKey: string) {
   // 6. Upsert vectors to Pinecone
   console.log("Inserting vectors into Pinecone...");
   const namespace = convertToAscii(fileKey);
-  const chunkSize = 10;
 
   const chunks: PineconeRecord[] = vectors.map((vector) => ({
     ...vector,

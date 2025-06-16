@@ -25,7 +25,7 @@
 // }
 
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { WriteStream, createWriteStream } from "fs";
+import { createWriteStream } from "fs";
 import { pipeline } from "stream/promises";
 
 export async function downloadFromS3(
