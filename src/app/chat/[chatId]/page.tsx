@@ -13,8 +13,7 @@ type Props = {
     chatId: string;
   };
 };
-export default async function ChatPage(props: Props) {
-  const { chatId } = await props.params;
+export default async function ChatPage({ params: { chatId } }: Props) {
   const { userId } = await auth();
   if (!userId) {
     return redirect("/sign-in");
