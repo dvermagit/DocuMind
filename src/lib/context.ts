@@ -1,11 +1,8 @@
 import { Pinecone } from "@pinecone-database/pinecone";
 import { getEmbedding } from "./embeddings";
-import { convertToAscii } from "./utils";
+// import { convertToAscii } from "./utils";
 
-export async function getMatchesFromEmbeddings(
-  embeddings: number[],
-  fileKey: string
-) {
+export async function getMatchesFromEmbeddings(embeddings: number[]) {
   const pinecone = new Pinecone({
     apiKey: process.env.NEXT_PUBLIC_PINECONE_API_KEY!,
   });
@@ -13,7 +10,7 @@ export async function getMatchesFromEmbeddings(
   const index = await pinecone.index("documind-ai");
 
   try {
-    const namespaceValue = convertToAscii(fileKey);
+    // const namespaceValue = convertToAscii(fileKey);
     // const queryResult = await index.query({
     //   topK: 5,
     //   vector: embeddings,  // Correct property name
@@ -34,10 +31,10 @@ export async function getMatchesFromEmbeddings(
   }
 }
 
-export async function getContext(query: string, fileKey: string) {
+export async function getContext(query: string) {
   const queryEmbeddings = await getEmbedding(query);
   console.log({ queryEmbeddings });
-  const matches = await getMatchesFromEmbeddings(queryEmbeddings, fileKey);
+  const matches = await getMatchesFromEmbeddings(queryEmbeddings);
 
   const qualifyingDocs = matches.filter(
     (matches) => matches.score && matches.score > 0.5

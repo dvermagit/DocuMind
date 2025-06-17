@@ -48,10 +48,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Chat not found" }, { status: 404 });
     }
     console.log("chats", _chats);
-    const fileKey = _chats[0].fileKey;
+    // const fileKey = _chats[0].fileKey;
     const lastMessage = messages[messages.length - 1]; // the last message is query itself by the user
     console.log("lastMessage", lastMessage);
-    const context = await getContext(lastMessage.content, fileKey);
+    const context = await getContext(lastMessage.content);
+    // const context = await getContext(lastMessage.content,fileKey);
 
     const prompt = {
       role: "system",
