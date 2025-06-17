@@ -51,6 +51,10 @@ export async function GET() {
           },
           quantity: 1,
         },
+        // {
+        //   price: "price_1RafUqPnWo05AoxK4K31qkGJ",
+        //   quantity: 1,
+        // },
       ],
       metadata: {
         userId,

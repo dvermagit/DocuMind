@@ -22,7 +22,7 @@ export async function getMatchesFromEmbeddings(
     // });
     // return queryResult.matches || [];
     // const namespace = convertToAscii(fileKey);
-    const queryResult = await index.namespace(namespaceValue).query({
+    const queryResult = await index.namespace("default").query({
       topK: 5,
       vector: embeddings,
       includeMetadata: true,
