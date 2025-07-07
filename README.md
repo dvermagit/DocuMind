@@ -47,6 +47,7 @@ Start the development server:
 ```bash
 npm run dev
 
+
 ## Project Structure
 
 - **src/app**: Contains the main application pages and API routes.
