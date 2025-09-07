@@ -3,6 +3,7 @@
 Documind is a SaaS application that combines document management with conversational AI, powered by generative AI models like GPT-3.5. It enables organizations to create searchable knowledge bases from their documentation and allows users to interact with documents using natural language queries.
 
 ## Table of Contents
+
 - [Features](#features)
 - [How Documind Works](#how-documind-works)
 - [Getting Started](#getting-started)
@@ -17,6 +18,7 @@ Documind is a SaaS application that combines document management with conversati
 ---
 
 ## Features
+
 - Document crawling and ingestion
 - Vector embedding creation and storage (Pinecone)
 - Conversational search powered by generative AI (GPT-3.5 and others)
@@ -29,6 +31,7 @@ Documind is a SaaS application that combines document management with conversati
 ---
 
 ## How Documind Works
+
 1. **Crawling Documentation Website**
    - Documind crawls the provided documentation URLs to collect content.
 2. **Creating Knowledge Base**
@@ -42,7 +45,9 @@ Documind is a SaaS application that combines document management with conversati
 ---
 
 ## Getting Started
+
 ### Prerequisites
+
 - Node.js (v18+ recommended)
 - npm, yarn, or pnpm
 - Pinecone account (for vector database)
@@ -50,6 +55,7 @@ Documind is a SaaS application that combines document management with conversati
 - Stripe account (for subscriptions, if needed)
 
 ### Installation
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-repo/documind.git
@@ -80,7 +86,9 @@ Documind is a SaaS application that combines document management with conversati
 ---
 
 ## Configuration
+
 To create a knowledge base, provide:
+
 - **Documentation Website URL**  
   Example: `https://nextjs.org/docs`
 - **Documentation Website URL Match**  
@@ -99,6 +107,7 @@ To create a knowledge base, provide:
 ---
 
 ## Project Structure
+
 ```
 components.json
 public/
@@ -164,11 +173,12 @@ src/
 ---
 
 ## Usage Example
+
 ```javascript
-import { Documind } from 'documind';
+import { Documind } from "documind";
 
 const documind = new Documind({
-  documind_key: 'your-documind-key'
+  documind_key: "your-documind-key",
 });
 
 const { answer, message, error } = await documind.search(searchQuery);
@@ -177,7 +187,9 @@ const { answer, message, error } = await documind.search(searchQuery);
 ---
 
 ## Deployment
+
 Documind is designed for deployment on [Vercel](https://vercel.com) or similar platforms.
+
 1. Push your code to a GitHub repository.
 2. Connect your repository to Vercel.
 3. Set environment variables in Vercel dashboard.
@@ -186,14 +198,17 @@ Documind is designed for deployment on [Vercel](https://vercel.com) or similar p
 ---
 
 ## Acknowledgments
+
 Documind draws inspiration from [BuilderIO/gpt-crawler](https://github.com/BuilderIO/gpt-crawler), which focuses on crawling documentation websites to generate knowledge files for OpenAI assistants. Documind extends this by integrating conversational search directly into documentation sites using generative AI.
 
 ---
 
 ## License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ---
 
 ## Contributing
+
 Contributions are welcome! Please open an issue or submit a pull request for improvements or new features.
